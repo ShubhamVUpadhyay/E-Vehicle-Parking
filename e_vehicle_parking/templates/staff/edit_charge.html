@@ -1,0 +1,10 @@
+{% extends "home/base.html" %}
+
+{% block content %}
+  <h1>Edit Parking Charge {{ charge.id }}</h1>
+  <form method="post">
+    {% csrf_token %}
+    {{ charge.as_p }}
+    <button type="submit">Save</button>
+  </form>
+{% endblock %}

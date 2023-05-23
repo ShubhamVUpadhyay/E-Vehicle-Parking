@@ -1,0 +1,10 @@
+<h1>Occupied Spots</h1>
+<form action="{% url 'occupied_spots' %}" method="get">
+    <input type="text" name="q" placeholder="Search by spot number or time of entry">
+    <input type="submit" value="Search">
+</form>
+<ul>
+    {% for spot in spots %}
+        <li>Spot {{ spot.spot_number }} - Time of entry: {{ spot.time_of_entry|date:'F d, Y H:i' }} - Fee: ${{ spot.fee }}</li>
+    {% endfor %}
+</ul>

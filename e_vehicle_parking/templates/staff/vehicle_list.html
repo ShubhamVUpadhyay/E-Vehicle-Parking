@@ -1,0 +1,47 @@
+{% extends 'home/base.html' %}
+{% block content %}
+<table class="table bg-white rounded shadow-sm  table-hover ">
+  <thead class="bg-primary" style="color:white; text-align:center;">
+    <tr >
+      <th>Vehicle Type</th>
+      <th>Vehicle Number</th>
+      <th>Entry Time</th>
+      <th>Exit Time</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody style="text-align:center;">
+    {% for vehicle in bookings %}
+    <tr>
+       <td>{{ vehicle.vehicle.name }}</td>
+      <td>{{ vehicle.vehicle_number }}</td>
+      <td>{{ vehicle.entry_time }}</td>
+      <td>{{ vehicle.exit_time }}</td>
+      <td class="status">{{ vehicle.status }}</td>
+      <td><a href="{% url 'delete_booking' vehicle.id %}"><button class="btn btn-danger" onclick="return confirm('Are you sure you want to delete These records?');">Delete</button></a> </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  function updateVehicleStatus(vehicleNumber) {
+    $.get('/update_status', {'vehicle_number': vehicleNumber}, function(response) {
+      if (response.status) {
+        $('td.status[data-vehicle-number="' + vehicleNumber + '"]').text(response.status);
+      } else if (response.error) {
+        console.error(response.error);
+      }
+    });
+  }
+
+  setInterval(function() {
+    $('td.status').each(function() {
+      var vehicleNumber = $(this).data('vehicle-number');
+      updateVehicleStatus(vehicleNumber);
+    });
+  }, 5000);
+</script>
+{% endblock %}

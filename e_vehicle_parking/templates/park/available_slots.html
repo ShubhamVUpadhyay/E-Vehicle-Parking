@@ -1,0 +1,19 @@
+<h1>Available Parking Slots</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Slot Number</th>
+      <th>Category</th>
+      <th>Is Available</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for slot in available_slots %}
+      <tr>
+        <td>{{ slot.slot_number }}</td>
+        <td>{{ slot.category }}</td>
+        <td>{{ slot.is_available }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>

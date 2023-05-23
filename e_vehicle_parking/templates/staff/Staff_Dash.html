@@ -1,0 +1,711 @@
+{% extends 'home/base.html' %}
+
+
+{% block title %}
+Staff DashBoard
+{% endblock title %}
+{% block style %}
+<style>
+    :root {
+    --main-bg-color: #0d009d;
+    --main-text-color: #1d009d;
+    --second-text-color: #bbbec5;
+    --second-bg-color: #c1efde;
+  }
+
+  .primary-text {
+    color: var(--main-text-color);
+  }
+
+  .second-text {
+    color: var(--second-text-color);
+  }
+
+  .primary-bg {
+    background-color: var(--main-bg-color);
+  }
+
+  .secondary-bg {
+    background-color: var(--second-bg-color);
+  }
+
+  .rounded-full {
+    border-radius: 100%;
+  }
+
+  #wrapper {
+    overflow-x: hidden;
+    background-image: linear-gradient(
+      to right,
+     blue,rgb(98, 0, 255)
+    );
+  }
+
+  #sidebar-wrapper {
+    min-height: 100vh;
+    margin-left: -15rem;
+    -webkit-transition: margin 0.25s ease-out;
+    -moz-transition: margin 0.25s ease-out;
+    -o-transition: margin 0.25s ease-out;
+    transition: margin 0.25s ease-out;
+  }
+
+  #sidebar-wrapper .sidebar-heading {
+    padding: 0.875rem 1.25rem;
+    font-size: 1.2rem;
+  }
+
+  #sidebar-wrapper .list-group {
+    width: 15rem;
+  }
+
+  #page-content-wrapper {
+    min-width: 100vw;
+  }
+
+  #wrapper.toggled #sidebar-wrapper {
+    margin-left: 0;
+  }
+
+  #menu-toggle {
+    cursor: pointer;
+  }
+
+  .list-group-item {
+    border: none;
+    padding: 20px 30px;
+  }
+
+  .list-group-item.active {
+    background-color: transparent;
+    color: var(--main-text-color);
+    font-weight: bold;
+    border: none;
+  }
+  #verify,#profile,#in,#out,#map,#Capacity,#fee,#earning{
+  display: none;
+  }
+  .seat{
+
+  border: 1px solid white;
+  height: 120px;
+  width: 100px;
+
+  color: white;
+  text-align: center;
+  }
+  .txt{
+  color: white;
+  }
+  p{
+  font-size: 10px;
+  }
+  .details p{
+   font-size: 20px;
+  }
+  .vacant {
+  background-color: green;
+}
+.occupied {
+  background-color: red;
+}
+
+  @media (min-width: 768px) {
+    #sidebar-wrapper {
+      margin-left: 0;
+    }
+
+    #page-content-wrapper {
+      min-width: 0;
+      width: 100%;
+    }
+
+    #wrapper.toggled #sidebar-wrapper {
+      margin-left: -15rem;
+    }
+  }
+
+</style>
+{% endblock style %}
+{% block content %}
+
+<div class="d-flex" id="wrapper">
+    <!-- Sidebar -->
+    <div class="bg-white" id="sidebar-wrapper">
+        <div class="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom">
+            E-vehicle <i class="fas fa-parking me-2"></i></div>
+        <div class="list-group list-group-flush my-3">
+            <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold active"><i
+                    class="fas fa-home me-2"></i>Dashboard</a>
+            <a href="#" onclick="Profile()"
+               class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+                    class="fas fa-check me-2"></i>User Details</a>
+            <a href="#" onclick="Fee()"
+               class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+                    class="fas fa-hand-holding-usd me-2"></i>Pricing</a>
+            <a href="#" onclick="myFunction2()"
+               class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+                    class="fa fa-book me-2"></i>Manage Records</a>
+            <a href="{% url 'edit' %}" onclick="myFunction()"
+               class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+                    class="fas fa-user me-2"></i>Update Profie</a>
+            <a href="{% url 'change_pass' %}"
+               class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+                    class="fas fa-edit me-2"></i>Change Passord</a>
+
+            <a href="{% url 'logout' %}"
+               class="list-group-item list-group-item-action bg-transparent text-danger fw-bold"><i
+                    class="fas fa-power-off me-2"></i>Logout</a>
+        </div>
+    </div>
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white py-4 px-4">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-align-left primary-text fs-4 me-3" id="menu-toggle" onclick="toggleMenu()"></i>
+
+                <h2 class="fs-2 m-0" style="color: rgb(11, 11, 11);">Welcome Staff</h2>
+            </div>
+
+            <button class="navbar-toggler bg-white" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 ">
+                    <li class="nav-item  justify-content-right">
+                        <a class="nav-link toggle  second-text fw-bold text-danger" href="{% url 'logout' %}"
+                           id="navbarDropdown"
+                           aria-expanded="false">
+                            <i class="fas fa-power-off me-2"></i>Logout
+                        </a>
+
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="container-fluid px-4">
+            <div class="row g-3 my-2">
+                <div class="col-md-3 active">
+                    <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
+                        <div>
+                            <h3 class="fs-5">Verification</h3>
+                            <button class="btn btn-primary" onclick="Verify()">Verify Vehicle</button>
+
+                        </div>
+                        <i class="fas fa-check fs-1 primary-text  p-3"></i>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
+                        <div>
+                            <h3 class="fs-5">Users</h3>
+
+
+                            <button class="btn btn-primary" onclick="Profile()">Total users: {{ total }}</button>
+                            </a>
+
+                        </div>
+                        <i class="fas fa-user fs-1 primary-text  p-3"></i>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
+                        <div>
+                            <h3 class="fs-5">Vehicles In</h3>
+                            <button class="btn btn-success" onclick="In()">Total</button>
+                        </div>
+                        <i
+                                class="fas fa-car fs-1 primary-text  p-3"></i>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
+                        <div>
+                            <h3 class="fs-5">Vehicles Out</h3>
+                            <button class="btn btn-success" onclick="Out()">Total</button>
+                        </div>
+                        <i class="fas fa-car fs-1 primary-text  p-3"></i>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
+                        <div>
+                            <h3 class="fs-5">Parking Map</h3>
+                            <button class="btn btn-success" onclick="Map()">View Map</button>
+                        </div>
+                        <i class="fas fa-map fs-1 primary-text  p-3"></i>
+                    </div>
+                </div>
+
+
+                <div class="col-md-3">
+                    <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
+                        <div>
+                            <h3 class="fs-5">Bookings</h3>
+                            <button class="btn btn-danger" onclick="Cap()">Total:{{total_booking}}</button>
+
+                        </div>
+                        <i class="fas fa-book fs-1 primary-text  p-3"></i>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
+                        <div>
+                            <h3 class="fs-5">Parking Fee</h3>
+                            <button class="btn btn-info" onclick="Fee()">Set Charges</button>
+
+                        </div>
+                        <i class="fas fa-hand-holding-usd fs-1 primary-text p-3"></i>
+
+                    </div>
+                </div>
+                <!-------Totla Earning Page---->
+                <!--<div class="col-md-3">
+                    <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
+                        <div>
+                            <h3 class="fs-5">Earning</h3>
+                            <button class="btn btn-warning" onclick="Earning()">Total Earning</button>
+
+                        </div>
+                        <i class="fas fa-wallet fs-1 primary-text p-3"></i>
+
+                    </div>
+                </div>-->
+            </div>
+            <!---xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx----Totla Earning Page--xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-->
+            <!------- Vehicle Verification  Started ---->
+
+            <div class="verify" id="verify">
+               <!-- <button id="verify-auto" onclick="reserve.save()" class="btn btn-warning m-5 p-2">Automatic
+                    Verification
+                </button>
+                <br>-->
+                <button id="verify Manual" class="btn btn-success m-5 p-2" data-toggle="modal"
+                        data-target="#verificationmodal">Manual Verification
+                </button>
+            </div>
+
+            <!-- Verification pop-up Modal -->
+            <div class="modal fade" id="verificationmodal" tabindex="-1" role="dialog"
+                 aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel1">Verify Vehicle</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="post" action="{% url 'verify' %}">
+                                {% csrf_token %}
+                                <label for="vehicle_id">Vehicle Number:</label>
+                                <input type="text" id="vehicle_id" name="vehicle_id" required autocomplete="off"><br>
+                                <a href="{% url 'verify' %}">
+                                    <button type="submit" class="btn btn-warning">Verify</button>
+                                </a>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <!---xxxxxxxxxxxxxxxxxxxxx---- Vehicle Verification Ended ---xxxxxxxxxxxxxxxxxxxxxxxxxx--->
+        <!--------------User Profile Started ---------------------------------->
+        <div class="add_category col-md" id="profile">
+            <div class="d-flex justify-content-center">
+                <button type="button" class="btn btn-success m-5">Total Users :{{total}}</button>
+                <input type="search" class="btn btn-danger m-5" placeholder="search by name"> </input>
+            </div>
+
+
+            <table class="table bg-white rounded shadow-sm  table-hover ">
+                <thead>
+                <tr>
+                    <th>UserName</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+
+
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for x in user %}
+                <tr>
+                    <td>{{ x.username }}</td>
+                    <td>{{ x.first_name }}</td>
+                    <td>{{ x.last_name }}</td>
+                    <td>{{ x.email }}</td>
+
+                    <td>
+                        <a href="{% url 'delete_user' x.id %}"> <button class="btn btn-danger"   onclick="return confirm('Are you sure you want to delete These records?');">Delete</button></a>
+
+                    </td>
+
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+
+            <!-----------xxxxxxxxxxxxxxxxxxxxxx----------------------Delete User Confirmation Model -------------------xxxxxxxxxxxxxxxxxx------------------------->
+        </div>
+
+
+        <!------------xxxxxxxxxxx------------------User Profile Ended------------------XXXXXXXXXXXXXX-->
+
+        <!------------------------------Vehicle IN details ----------------------------------->
+        <div class="add_category col-md" id="in">
+            <div class="d-flex justify-content-center">
+                <a href="{% url 'vehicle_list' %}">  <button type="button" class="btn btn-success m-5">Total In</button></a>
+            </div>
+
+        </div>
+        <!---xxxxxxxxxxxxxxxxxxxxxx-----Vehicle In Details ----------xxxxxxxxxxxx-------------->
+
+        <!------------------------------Vehicle Out details ----------------------------------->
+        <div class="add_category col-md" id="out">
+            <div class="d-flex justify-content-center">
+               <a href="{% url 'vehicle_list' %}"> <button type="button" class="btn btn-success m-5" data-toggle="modal" data-target="#popupModal">Total
+                    Out
+                </button>
+            </div>
+        </div>
+
+
+
+
+
+
+        <!---xxxxxxxxxxxxxxxxxxxxxx-----Vehicle Out Details ----------xxxxxxxxxxxx-------------->
+
+        <!------------------------------Parking Map details ----------------------------------->
+        <div class="add_category col-md" id="map">
+            <div class="d-flex justify-content-center">
+               <a href="{% url 'add_vehicle_category' %}"> <button type="button" class="btn btn-success m-5" >Add New Category
+               </button> </a>
+                <a href="{% url 'generate_slot' %}"> <button type="button" class="btn btn-warning m-5" >Generate Parking Area
+               </button> </a>
+
+            </div>
+
+
+{% for spot in spot %}
+
+    <div  class="col-lg-1 col-xs-1 d-inline-flex p-2 m-2" >
+{% if spot.status == 'occupied' %}
+        <div class="seat occupied">
+                <p >{{ spot.slot_number }}</p>
+                <p >Floor: {{ spot.floor_number }}</p>
+                <p>{{spot.status}}</p>
+            <p>{{spot.category.name}}</p>
+
+            </div>
+        {% else %}
+            <div class="seat vacant">
+                <p >{{ spot.slot_number }}</p>
+                <p >Floor: {{ spot.floor_number }}</p>
+                <p>{{spot.status}}</p>
+                 <p>{{spot.category.name}}</p>
+
+            </div>
+        {% endif %}
+        </div>
+
+{% endfor %}
+            <div class="col lg bg-primary text-white d-inline-flex justify-content-center">
+    <div class="details m-5">
+<p>Total Slots :{{total_spot}}</p>
+<p>Vacant Slots :{{vacant}}</p>
+<p>Occupied : {{occupied}}</p>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+  <div class="add_category col-md" id="Capacity">
+            <div class="d-flex justify-content-center">
+                <button type="button" class="btn btn-success m-5">Total Booking:{{total_booking}}</button>
+
+            </div>
+
+
+            <table class="table bg-white rounded shadow-sm  table-hover ">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                     <th>Vehicle Type</th>
+                    <th>Vehicle Number</th>
+                    <th>Entry Time</th>
+                    <th>Exit Time</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                 {% for r in record %}
+                <td>{{r.user.first_name}}</td>
+                <td>{{r.vehicle.name}}</td>
+                <td>{{r.vehicle_number }}</td>
+                <td>{{r.entry_time }}</td>
+                <td>{{r.exit_time }}</td>
+                <td><a href="{% url 'delete_booking' r.id %}"> <button type="button" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete This record ?');">Delete</button></a> </td>
+                </tbody>
+                {% endfor %}
+            </table>
+  </div>
+
+
+
+            <!------------------------------Total Earning details ----------------------------------->
+           <!-- <div class="add_category col-md" id="earning">
+                <div class="d-flex justify-content-center">
+                    <a href="{% url 'vehicle_list' %}"><button type="button" class="btn btn-success m-5">Total Earning</button></a>
+                </div>
+            </div>-->
+           <div class="add_category col-md" id="fee">
+                <div class="d-flex justify-content-center">
+                 <a href="{% url 'add_parking_charge' %}"> <button type="button" class="btn btn-success m-5" >Add New</button> </a>
+                </div>
+
+
+
+            <table class="table bg-white rounded shadow-sm  table-hover ">
+                <thead>
+                <tr>
+
+                     <th>Vehicle Type</th>
+                    <th>Hourly Rate</th>
+                    <th>Additional Hour Rate</th>
+                    <th>Monthly Rate</th>
+                    <th>Yearly Rate</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                 {% for parking_charge in parking_charges %}
+                <td>{{ parking_charge.vehicle_category.name }}</td>
+                <td>{{ parking_charge.hourly_rate }}</td>
+                 <td>{{ parking_charge.additional_hour_rate }}</td>
+                <td>{{ parking_charge.monthly_rate }}</td>
+
+                <td>{{ parking_charge.yearly_rate }}</td>
+                <td><a href="{% url 'edit_charge' parking_charge.id  %}"> <button type="button" class="btn btn-warning">Edit</button></a>
+                    <a href="{% url 'delete_charge' parking_charge.id  %}"> <button type="button" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete This record ?');">Delete</button></a> </td>
+                </tbody>
+                {% endfor %}
+            </table>
+
+            </div>
+
+
+
+
+<script>
+      function Verify(){
+            var x=document.getElementById("verify");
+            var y=document.getElementById("profile");
+            var z=document.getElementById("in");
+            var s=document.getElementById("out");
+            var m=document.getElementById("map");
+            var c=document.getElementById("Capacity");
+            var f=document.getElementById("fee");
+            var e=document.getElementById("earning");
+            if(x.style.display=="none"){
+                x.style.display="block";
+                y.style.display="none";
+                z.style.display="none";
+                s.style.display="none";
+                m.style.display="none";
+                c.style.display="none";
+                f.style.display="none";
+                e.style.display="none";
+                }
+           else{x.style.display="none";}
+        }
+
+        function Profile(){
+            var x=document.getElementById("verify");
+            var y=document.getElementById("profile");
+            var z=document.getElementById("in");
+            var s=document.getElementById("out");
+            var m=document.getElementById("map");
+            var c=document.getElementById("Capacity");
+            var f=document.getElementById("fee");
+            var e=document.getElementById("earning");
+
+            if(y.style.display=="none"){
+                x.style.display="none";
+                y.style.display="block";
+                z.style.display="none";
+                s.style.display="none";
+                m.style.display="none";
+                c.style.display="none";
+                f.style.display="none";
+                e.style.display="none";
+
+
+            }
+           else{y.style.display="none";}
+        }
+        function In(){
+            var x=document.getElementById("verify");
+            var y=document.getElementById("profile");
+            var z=document.getElementById("in");
+            var s=document.getElementById("out");
+            var m=document.getElementById("map");
+            var c=document.getElementById("Capacity");
+            var f=document.getElementById("fee");
+            var e=document.getElementById("earning");
+
+            if(z.style.display=="none"){
+                x.style.display="none";
+                y.style.display="none";
+                s.style.display="none";
+                z.style.display="block";
+                m.style.display="none";
+                c.style.display="none";
+                f.style.display="none";
+                e.style.display="none";
+            }
+           else{z.style.display="none";}
+        }
+         function Out(){
+            var x=document.getElementById("verify");
+            var y=document.getElementById("profile");
+            var z=document.getElementById("in");
+            var s=document.getElementById("out");
+            var m=document.getElementById("map");
+            var c=document.getElementById("Capacity");
+            var f=document.getElementById("fee");
+            var e=document.getElementById("earning");
+
+            if(s.style.display=="none"){
+                x.style.display="none";
+                y.style.display="none";
+                z.style.display="none";
+                s.style.display="block";
+                m.style.display="none";
+                c.style.display="none";
+                f.style.display="none";
+                e.style.display="none";
+            }
+           else{s.style.display="none";}
+        }
+function Map(){
+            var x=document.getElementById("verify");
+            var y=document.getElementById("profile");
+            var z=document.getElementById("in");
+            var s=document.getElementById("out");
+            var m=document.getElementById("map");
+            var c=document.getElementById("Capacity");
+            var f=document.getElementById("fee");
+            var e=document.getElementById("earning");
+            if(m.style.display=="none"){
+                x.style.display="none";
+                y.style.display="none";
+                z.style.display="none";
+                s.style.display="none";
+                m.style.display="block";
+                c.style.display="none";
+                f.style.display="none";
+                e.style.display="none";
+                }
+           else{m.style.display="none";}
+        }
+function Cap(){
+            var x=document.getElementById("verify");
+            var y=document.getElementById("profile");
+            var z=document.getElementById("in");
+            var s=document.getElementById("out");
+            var m=document.getElementById("map");
+            var c=document.getElementById("Capacity");
+            var f=document.getElementById("fee");
+            var e=document.getElementById("earning");
+            if(c.style.display=="none"){
+                x.style.display="none";
+                y.style.display="none";
+                z.style.display="none";
+                s.style.display="none";
+                m.style.display="none";
+                c.style.display="block";
+                f.style.display="none";
+                e.style.display="none";
+                }
+           else{c.style.display="none";}
+        }
+function Fee(){
+            var x=document.getElementById("verify");
+            var y=document.getElementById("profile");
+            var z=document.getElementById("in");
+            var s=document.getElementById("out");
+            var m=document.getElementById("map");
+            var c=document.getElementById("Capacity");
+            var f=document.getElementById("fee");
+            var e=document.getElementById("earning");
+            if(f.style.display=="none"){
+                x.style.display="none";
+                y.style.display="none";
+                z.style.display="none";
+                s.style.display="none";
+                m.style.display="none";
+                c.style.display="none";
+                f.style.display="block";
+                e.style.display="none";
+                }
+           else{f.style.display="none";}
+        }
+        function Earning(){
+            var x=document.getElementById("verify");
+            var y=document.getElementById("profile");
+            var z=document.getElementById("in");
+            var s=document.getElementById("out");
+            var m=document.getElementById("map");
+            var c=document.getElementById("Capacity");
+            var f=document.getElementById("fee");
+            var e=document.getElementById("earning");
+            if(e.style.display=="none"){
+                x.style.display="none";
+                y.style.display="none";
+                z.style.display="none";
+                s.style.display="none";
+                m.style.display="none";
+                c.style.display="none";
+                f.style.display="none";
+                e.style.display="block";
+                }
+           else{e.style.display="none";}
+        }
+function toggleMenu(){
+var wrap = document.getElementById("wrapper");
+        var toggleButton = document.getElementById("menu-toggle");
+
+        toggleButton.onclick = function () {
+            wrap.classList.toggle("toggled");
+        }};
+
+
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'home/base.html' %}
+
+{% block content %}
+<h2>Vehicle Categories and Parking Fees</h2>
+{% if categories %}
+<h3>Vehicle Categories:</h3>
+<ul>
+{% for category in categories %}
+    <li>{{ category.name }}</li>
+{% endfor %}
+</ul>
+{% endif %}
+{% if fees %}
+<h3>Parking Fees:</h3>
+<ul>
+{% for fee in fees %}
+    <li>{{ fee.category.name }} - {{ fee.duration_in_hours }} hours - ${{ fee.fee_amount }}</li>
+{% endfor %}
+</ul>
+{% endif %}
+<h3>Create a new Vehicle Category and Parking Fee:</h3>
+<form method="POST">
+    {% csrf_token %}
+    <label for="category_name">Category Name:</label>
+    <input type="text" name="category_name"><br>
+    <label for="fee_duration">Fee Duration (hours):</label>
+    <input type="number" name="fee_duration"><br>
+    <label for="fee_amount">Fee Amount:</label>
+    <input type="number" step="0.01" name="fee_amount"><br>
+    <input type="submit" value="Create">
+</form>
+{% endblock %}

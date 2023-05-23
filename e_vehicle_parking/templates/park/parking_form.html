@@ -1,0 +1,20 @@
+<form method="POST" action="{% url 'parking_slots' %}">
+  {% csrf_token %}
+  <label for="category">Vehicle Category:</label>
+  <select name="category" id="category">
+    {% for category in categories %}
+    <option value="{{ category.name }}">{{ category.name }}</option>
+    {% endfor %}
+  </select>
+  <br><br>
+  <label for="entry_time">Entry Time:</label>
+  <input type="datetime-local" id="entry_time" name="entry_time" min="{% now 'Y-m-d' %}T{% now 'H:i' %}" required>
+  {% if entry_time %}
+<p>Entry time: {{ entry_time }}</p>
+{% endif %}
+  <br><br>
+  <label for="exit_time">Exit Time:</label>
+  <input type="datetime-local" id="exit_time" name="exit_time" min="{% now 'Y-m-d' %}T{% now 'H:i' %}" required>
+  <br><br>
+  <input type="submit" value="Find Parking">
+</form>

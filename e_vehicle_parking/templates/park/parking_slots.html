@@ -1,0 +1,40 @@
+{%extends 'home/base.html' %}
+{% block content %}
+<h1>Parking Slots for {{ vehicle_category.name }}</h1>
+
+{% if parking_slots %}
+
+    {% for parking_slot in parking_slots %}
+
+    <div  class="col-lg-1 col-xs-1 d-inline-flex p-2 m-2" >
+{% if spot.status == 'occupied' %}
+        <div class="seat occupied">
+                <p >{{ parking_slot.slot_number }}</p>
+                <p >Floor: {{ parking_slot.floor_number }}</p>
+                <p>{{parking_slot.status}}</p>
+            <p>{{parking_slot.category.name}}</p>
+
+
+
+                <a href="{% url 'cancel' spot.id %}" class="btn btn-success">Cancel</a>
+            </div>
+        {% else %}
+            <div class="seat vacant">
+                <p >{{ parking_slot.slot_number }}</p>
+                <p >Floor: {{ parking_slot.floor_number }}</p>
+                <p>{{parking_slot.status}}</p>
+                 <p>{{parking_slot.category.name}}</p>
+                <a href="{% url 'calculate_parking_fee'  %}" class="btn btn-danger">Book</a>
+            </div>
+        {% endif %}
+        </div>
+    </div>
+
+    {% endfor %}
+
+{% else %}
+  <p>No parking slots found for {{ vehicle_category.name }}.</p>
+{% endif %}
+
+
+{% endblock %}

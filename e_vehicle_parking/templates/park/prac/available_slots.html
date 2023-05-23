@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Available parking slots for {{ category.name }}:</h1>
+  <p>Selected entry time: {{ entry_time }}</p>
+  <p>Selected exit time: {{ exit_time }}</p>
+  {% if slots %}
+    <ul>
+      {% for slot in slots %}
+        <li>Parking slot {{ slot.identifier }}</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No available parking slots for the selected time range.</p>
+  {% endif %}
+{% endblock %}

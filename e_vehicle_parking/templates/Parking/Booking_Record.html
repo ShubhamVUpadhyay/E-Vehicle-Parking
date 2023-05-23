@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+{% extends 'home/base.html' %}
+{% block content %}
+<body>
+<h1 style="text-align:center;" >Booking History</h1>
+<hr>
+<table border="1" class="table table condensed table-hover text-center">
+    <thead class="table-primary text-white">
+    <th scope="row">Owner Name</th>
+    <th>Vehicle ID</th>
+    <th>Contact No</th>
+     <th>Parking Slot</th>
+    <th>From</th>
+    <th>To</th>
+     <th>Action</th>
+    </thead>
+{% for x in book %}
+<tr>
+<td>{{ request.user.first_name }} {{request.user.last_name}}</td>
+<td>{{ x.vehicle_id }}</td>
+<td>{{ x.Contact_no }}</td>
+    <td>{{ x.Parking_slot }}</td>
+<td>{{ x.From }}</td>
+<td>{{ x.To }}</td>
+    <td><button type="submit" class="btn btn-warning">View Ticket</button>
+
+
+</tr>
+{% endfor %}
+</table>
+{% endblock %}
+</body>
+</html>

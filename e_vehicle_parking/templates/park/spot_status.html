@@ -1,0 +1,5 @@
+<h1>Spot {{ spot.spot_number }}</h1>
+<p>Occupancy status: {% if spot.is_occupied %}Occupied{% else %}Vacant{% endif %}</p>
+{% if spot.is_occupied %}
+    <p>Time of entry: {{ spot.time_of_entry|date:'F d, Y H:i' }}</p>
+{% endif %}

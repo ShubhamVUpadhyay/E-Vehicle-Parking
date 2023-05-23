@@ -1,0 +1,475 @@
+{% extends 'home/base.html' %}
+
+
+{% block title %}
+User DashBoard
+{% endblock title %}
+{% block style %}
+<style>
+    :root {
+    --main-bg-color: #0d009d;
+    --main-text-color: #1d009d;
+    --second-text-color: #bbbec5;
+    --second-bg-color: #c1efde;
+  }
+
+  .primary-text {
+    color: var(--main-text-color);
+  }
+
+  .second-text {
+    color: var(--second-text-color);
+  }
+
+  .primary-bg {
+    background-color: var(--main-bg-color);
+  }
+
+  .secondary-bg {
+    background-color: var(--second-bg-color);
+  }
+
+  .rounded-full {
+    border-radius: 100%;
+  }
+
+  #wrapper {
+    overflow-x: hidden;
+    background-image: linear-gradient(
+      to right,
+     blue,rgb(98, 0, 255)
+    );
+  }
+
+  #sidebar-wrapper {
+    min-height: 100vh;
+    margin-left: -15rem;
+    -webkit-transition: margin 0.25s ease-out;
+    -moz-transition: margin 0.25s ease-out;
+    -o-transition: margin 0.25s ease-out;
+    transition: margin 0.25s ease-out;
+  }
+
+  #sidebar-wrapper .sidebar-heading {
+    padding: 0.875rem 1.25rem;
+    font-size: 1.2rem;
+  }
+
+  #sidebar-wrapper .list-group {
+    width: 15rem;
+  }
+
+  #page-content-wrapper {
+    min-width: 100vw;
+  }
+
+  #wrapper.toggled #sidebar-wrapper {
+    margin-left: 0;
+  }
+
+  #menu-toggle {
+    cursor: pointer;
+  }
+
+  .list-group-item {
+    border: none;
+    padding: 20px 30px;
+  }
+
+  .list-group-item.active {
+    background-color: transparent;
+    color: var(--main-text-color);
+    font-weight: bold;
+    border: none;
+  }
+
+  .seat{
+
+  border: 1px solid white;
+  height: 200px;
+  width: 100px;
+
+  color: white;
+  text-align: center;
+  }
+  .txt{
+  color: white;
+  }
+  p{
+  font-size: 10px;
+  }
+  .details p{
+   font-size: 20px;
+  }
+  .vacant {
+  background-color: green;
+}
+.occupied {
+  background-color: red;
+}
+
+  @media (min-width: 768px) {
+    #sidebar-wrapper {
+      margin-left: 0;
+    }
+
+    #page-content-wrapper {
+      min-width: 0;
+      width: 100%;
+    }
+
+    #wrapper.toggled #sidebar-wrapper {
+      margin-left: -15rem;
+    }
+  }
+
+</style>
+{% endblock style %}
+{% block content %}
+
+<div class="d-flex" id="wrapper">
+    <!-- Sidebar -->
+    <div class="bg-white" id="sidebar-wrapper">
+        <div class="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom">
+            E-vehicle <i class="fas fa-parking me-2"></i></div>
+        <div class="list-group list-group-flush my-3">
+            <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold active"><i
+                    class="fas fa-home me-2"></i>Dashboard</a>
+            <a href="#" onclick="book()"
+               class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+                    class="fas fa-check me-2"></i>Book Slot</a>
+            <a href="#" onclick="myFunction3()"
+               class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+                    class="fas fa-hand-holding-usd me-2"></i>Pricing</a>
+            <a href="#" onclick="myFunction2()"
+               class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+                    class="fa fa-book me-2"></i>Booking History</a>
+            <a href="#" onclick="myFunction()"
+               class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+                    class="fas fa-user me-2"></i>My Profie</a>
+            <a href="{% url 'change_pass' %}"
+               class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+                    class="fas fa-edit me-2"></i>Change Passord</a>
+
+            <a href="{% url 'logout' %}"
+               class="list-group-item list-group-item-action bg-transparent text-danger fw-bold"><i
+                    class="fas fa-power-off me-2"></i>Logout</a>
+        </div>
+    </div>
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white py-4 px-4">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-align-left primary-text fs-4 me-3" id="menu-toggle" onclick="toggleMenu()"></i>
+                {% for x in user %}
+                <h2 class="fs-2 m-0" style="color: rgb(11, 11, 11);">Welcome {{x.username}}</h2>{% endfor %}
+            </div>
+
+            <button class="navbar-toggler bg-white" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 ">
+                    <li class="nav-item  justify-content-right">
+                        <a class="nav-link toggle  second-text fw-bold text-danger" href="{% url 'logout' %}"
+                           id="navbarDropdown"
+                           aria-expanded="false">
+                            <i class="fas fa-power-off me-2"></i>Logout
+                        </a>
+
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="container-fluid px-4">
+            <div class="row g-3 my-2">
+                <div class="col-md-3 active">
+                    <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
+                        <div>
+                            <h3 class="fs-5">View Profile</h3>
+                            <button class="btn btn-primary" onclick="myFunction()">Profile</button>
+
+                        </div>
+                        <i class="fas fa-user fs-1 primary-text  p-3"></i>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
+                        <div>
+                            <h3 class="fs-5">Book Slot</h3>
+                            <button class="btn btn-success" onclick="book()">Book Space</button>
+                        </div>
+                        <i
+                                class="fas fa-check fs-1 primary-text  p-3"></i>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
+                        <div>
+                            <h3 class="fs-5">Price Chart</h3>
+                            <button class="btn btn-danger" onclick="myFunction3()">Pricing</button>
+
+                        </div>
+                        <i class="fas fa-hand-holding-usd fs-1 primary-text  p-3"></i>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
+                        <div>
+                            <h3 class="fs-5">History</h3>
+                            <button class="btn btn-info" onclick="myFunction2()">Booking Records</button>
+
+                        </div>
+                        <i class="fas fa-book fs-1 primary-text p-3"></i>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row my-5">
+                <div id="space">
+                <h3 class="fs-4 mb-3" style="color: white;">Book Your Space</h3>
+                <div class="col">
+
+                    <!-- Parking Slot Page Started-->
+
+ <a href="{% url 'park_slots' %}"> <button type="submit" class="btn btn-danger"  >Search
+</button></a>
+    </form></form>
+
+
+                    <!--------------xxxxxxxxxxxxxxxxxxxxxx---------------Parking area -------------------->
+                            <!-- Modal -->
+                            <div class="modal fade" id="popupModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Book Slot</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <!-------------------Booking Page------------>
+
+
+                                            <p>Vehicle Category :</p>
+                                            <p>Parking Slot :</p>
+                                            {% for x in user %}
+                                            <p>Email : {{x.email}}</p>
+                                            {% endfor %}
+                                            <p>From :</p>
+                                            <p> To : </p>
+                                            <p>Total Fee: </p>
+                                            <button type="submit" class="btn btn-success">Confirm</button>
+
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel
+                                            </button>
+
+
+                                        </div>
+                                        <!--------xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-----------Booking Page------xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx------>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!---------------Modal ---------------------------------------->
+
+                    </div>
+
+
+
+
+
+
+            <!-- xxxxxxxx------Parking Slot Page Ended-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-->
+
+
+            <!------- User Profile Started ---->
+
+            <table class="table bg-white rounded shadow-sm  table-hover mt-3" id="table1">
+                <thead>
+                <tr>
+                    <th scope="col" width="50">Username</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for x in user %}
+                <tr>
+                    <td>{{ x.username }}</td>
+                    <td>{{ x.first_name }}</td>
+                    <td>{{ x.last_name }}</td>
+                    <td>{{ x.email }}</td>
+
+
+                    <td><a href="{% url 'edit' %}">
+                        <button type="submit" class="btn btn-success">Edit</button>
+                    </a>
+                        <a href="{% url 'delete' %}">
+                            <button type="submit" class="btn btn-danger"
+                                    onclick="return confirm('Are you sure you want to delete your profile?');">Delete
+                            </button>
+                        </a></td>
+                </tr>
+
+                </tbody>
+                {% endfor %}
+            </table>
+
+            <!---xxxxxxxxxxxxxxxxxxxxx---- User Profile Ended ---xxxxxxxxxxxxxxxxxxxxxxxxxx-->
+            <!------- Parking Charges Started ---->
+            <table class="table bg-white rounded shadow-sm  table-hover" id="table3">
+                <thead>
+                <th scope="row">Vehicle Type</th>
+                <th>Charge Per Hour</th>
+                <th>Additional Hour</th>
+                <th>Monthly Pass</th>
+                <th>Yearly Pass</th>
+
+                <th scope="col">Action</th>
+                </thead>
+
+
+                <tbody>
+                {% for f in fee %}
+                <tr>
+                    <td>{{f.vehicle_category.name}}</td>
+                    <td>{{f.hourly_rate}} Rs/-</td>
+                    <td>{{f.additional_hour_rate}} Rs/-</td>
+                    <td>{{f.monthly_rate}} Rs/-</td>
+                    <td>{{f.yearly_rate}} Rs/-</td>
+                    <td><button class="btn btn-primary">Book Pass</button> </td>
+
+                </tr>              {% endfor %}  </tbody>
+            </table>
+            <!-----xxxxxxxxxx-- Parking Chart Ended ---xxxxxxxxxxxxxxxxxxxxxxxx-->
+<!------- User Booking Record Started ---->
+            <table class="table bg-white rounded shadow-sm  table-hover" id="table2">
+                <thead>
+                <th scope="row">Owner Name</th>
+                <th>Vehicle ID</th>
+                <th>Contact No</th>
+                <th>Parking Slot</th>
+                <th>From</th>
+                <th>To</th>
+                <th scope="col">Action</th>
+                </thead>
+                <tbody>
+                {% for a in booking_record %}
+                <tr>
+                    <td>{{ request.user.first_name }} {{request.user.last_name}}</td>
+                    <td>{{ a.vehicle_number }}</td>
+                    <td>{{ a.user.email }}</td>
+                    <td>{{ a.slot.slot_number }}</td>
+                    <td>{{ a.entry_time }}</td>
+                    <td>{{ a.exit_time }}</td>
+                    <td> <button type="submit" class="btn btn-danger" >View</button></a>
+                  </td>
+
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <!-----xxxxxxxxxxxxxxx-- User Booking Record Ended --xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-->
+        </div>
+    </div>
+
+</div>
+</div>
+</div>
+<!-- /#page-content-wrapper -->
+</div>
+
+
+<script>
+      function myFunction(){
+            var x=document.getElementById("table1");
+            var y=document.getElementById("table2");
+            var z=document.getElementById("table3");
+            var s=document.getElementById("space");
+
+            if(x.style.display=="none"){
+                x.style.display="block";
+                y.style.display="none";
+                z.style.display="none";
+                s.style.display="none";
+
+            }
+           else{x.style.display="none";}
+        }
+        function book(){
+            var x=document.getElementById("table1");
+            var y=document.getElementById("table2");
+            var z=document.getElementById("table3");
+            var s=document.getElementById("space");
+            if(s.style.display=="none"){
+                x.style.display="none";
+                y.style.display="none";
+                z.style.display="none";
+                s.style.display="block";
+
+            }
+           else{s.style.display="none";}
+        }
+        function myFunction2(){
+            var x=document.getElementById("table1");
+            var y=document.getElementById("table2");
+            var z=document.getElementById("table3");
+            var s=document.getElementById("space");
+            if(y.style.display=="none"){
+                x.style.display="none";
+                y.style.display="block";
+                z.style.display="none";
+                s.style.display="none";
+
+            }
+           else{y.style.display="none";}
+        }
+        function myFunction3(){
+            var x=document.getElementById("table1");
+            var y=document.getElementById("table2");
+            var z=document.getElementById("table3");
+            var s=document.getElementById("space");
+            if(z.style.display=="none"){
+                x.style.display="none";
+                y.style.display="none";
+                s.style.display="none";
+                z.style.display="block";
+
+            }
+           else{z.style.display="none";}
+        }
+
+function toggleMenu(){
+var wrap = document.getElementById("wrapper");
+        var toggleButton = document.getElementById("menu-toggle");
+
+        toggleButton.onclick = function () {
+            wrap.classList.toggle("toggled");
+        }};
+
+  function selectSpot(selectedSpot) {
+    document.getElementById('selected-i-input').value = selectedSpot.innerHTML;
+  }
+
+
+
+</script>
+
+{% endblock %}

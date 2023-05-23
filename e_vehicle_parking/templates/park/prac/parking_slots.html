@@ -1,0 +1,11 @@
+<h1>Parking Slots for {{ vehicle_category.name }}</h1>
+
+{% if parking_slots %}
+  <ul>
+    {% for parking_slot in parking_slots %}
+      <li>{{ parking_slot.name }}</li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>No parking slots found for {{ category.name }}.</p>
+{% endif %}

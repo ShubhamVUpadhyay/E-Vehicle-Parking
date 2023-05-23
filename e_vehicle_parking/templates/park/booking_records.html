@@ -1,0 +1,41 @@
+{% extends 'home/base.html' %}
+{% block content %}
+  <div class="container">
+    <div class="row mt-5">
+      <div class="col-md-12">
+        <h1 class="text-center mb-5">Parking Details</h1>
+        <table class="table table-striped table-bordered">
+          <thead>
+            <tr>
+              <th>Vehicle Type</th>
+              <th>Vehicle Number</th>
+              <th>Slot Number</th>
+              <th>Entry Time</th>
+              <th>Exit Time</th>
+              <th>Parking Charge</th>
+              <th>Email</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{ booking.vehicle.name }}</td>
+              <td>{{ booking.vehicle_number }}</td>
+              <td>{{ booking.slot.slot_number }}</td>
+              <td>{{ booking.entry_time }}</td>
+              <td>{{ booking.exit_time }}</td>
+              <td>Total fee: {{ parking_fee|floatformat:"2" }}Rs/-</td>
+              <td>{{ user.email }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div style="text-align: center;">
+ <button class="btn btn-primary" style="display: inline-block; margin-right: 10px;">Pay</button></a>
+            <a href="{% url 'park_slots' %}"><button class="btn btn-danger" style="display: inline-block;">Cancel</button></a>
+</div>
+
+
+      </div>
+    </div>
+  </div>
+{% endblock %}
+

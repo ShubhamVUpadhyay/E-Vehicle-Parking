@@ -1,0 +1,39 @@
+{%extends 'home/base.html' %}
+{% block content %}
+<style>
+
+</style>
+<h1>Parking spots for {{ category }}</h1>
+{% for spot in slots %}
+
+    <div  class="col-lg-1 col-xs-1 d-inline-flex p-2 m-2" >
+{% if spot.status == 'occupied' %}
+        <div class="seat occupied">
+                <p >{{ spot.slot_number }}</p>
+                <p >Floor: {{ spot.floor_number }}</p>
+                <p>{{spot.status}}</p>
+                <a href="{% url 'cancel' spot.id %}" class="btn btn-success">Cancel</a>
+            </div>
+        {% else %}
+            <div class="seat vacant">
+                <p >{{ spot.slot_number }}</p>
+                <p >Floor: {{ spot.floor_number }}</p>
+                <p>{{spot.status}}</p>
+                <a href="{% url 'book' spot.id %}" class="btn btn-danger">Book</a>
+            </div>
+        {% endif %}
+        </div>
+    </div>
+{% endfor %}
+
+</div>
+<div class="col lg bg-primary text-white d-inline-flex justify-content-center">
+    <div class="details m-5">
+<p>Total Slots :{{total}}</p>
+<p>Vacant Slots :{{vacant}}</p>
+<p>Occupied : {{occupied}}</p>
+        </div>
+    </div>
+
+
+{% endblock %}

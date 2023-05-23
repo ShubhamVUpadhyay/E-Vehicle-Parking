@@ -1,0 +1,10 @@
+<form method="post">
+  {% csrf_token %}
+  Space number: <select name="space_number">
+    {% for space in spaces %}
+    <option value="{{ space.space_number }}">{{ space.space_number }}</option>
+    {% endfor %}
+  </select><br>
+  Vehicle type: <input type="text" name="vehicle_type"><br>
+  <input type="submit" value="Reserve Parking Space">
+</form>

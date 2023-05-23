@@ -1,0 +1,36 @@
+{% extends 'home/base.html' %}
+
+{% block content %}
+<h2>Generate Parking Slots</h2>
+{% if categories %}
+<h3>Vehicle Categories:</h3>
+<ul>
+{% for category in categories %}
+    <li>{{ category.name }}</li>
+{% endfor %}
+</ul>
+{% endif %}
+{% if slots %}
+<h3>Parking Slots:</h3>
+<ul>
+{% for slot in slots %}
+    <li>{{ slot.category.name }} - Slot {{ slot.slot_number }}</li>
+{% endfor %}
+</ul>
+{% endif %}
+<h3>Generate Parking Slots:</h3>
+<form method="POST">
+    {% csrf_token %}
+    <label for="category">Select Vehicle Category:</label>
+    <select name="category">
+    {% for category in categories %}
+        <option value="{{ category.id }}">{{ category.name }}</option>
+    {% endfor %}
+    </select><br>
+    <label for="start_slot">Start Slot Number:</label>
+    <input type="number" name="start_slot"><br>
+    <label for="end_slot">End Slot Number:</label>
+    <input type="number" name="end_slot"><br>
+    <input type="submit" value="Generate">
+</form>
+{% endblock %}

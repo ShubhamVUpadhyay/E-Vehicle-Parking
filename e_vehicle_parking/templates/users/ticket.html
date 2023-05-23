@@ -1,0 +1,34 @@
+<style>
+
+
+
+
+</style>
+<body>
+<div class="ticketContainer">
+  <div class="ticket">
+    <div class="ticketTitle">E-Vehicle</div>
+    <hr>
+    {%for a in booking%}
+    <div class="ticketDetail">
+      <div>In :{{a.From}}</div>
+      <div>Out :{{a.To}}</div>
+      <div>Parking Slot :{{ a.Parking_slot }}</div>
+      <div>Vehicle Type :</div>
+      <div>Date :</div>
+      <div>Paid :</div>
+    </div>
+    <div class="ticketRip">
+      
+      <div class="ripLine"></div>
+    
+    </div>
+    <div class="ticketSubDetail">
+      <div class="code">Vehicle Number : {{a.vehicle_id}}</div>
+      <div class="date">Parked by : {{ request.user.first_name }} {{request.user.last_name}}</div>
+    </div>
+  </div>
+  
+</div>
+{% endfor %}
+</body>

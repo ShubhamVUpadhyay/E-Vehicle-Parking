@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+     #record{
+        margin: auto;
+        backgound-color: red;
+        padding: 20px
+        }
+
+    </style>
+</head>
+{% extends 'home/base.html' %}
+{% block content %}
+<body>
+ <div class="col-sm-9 col-md-6 col-lg-8" style="background-color:pink;" >
+
+
+<table border="1" class="table table condensed table-hover text-center" id="record">
+    <thead class="table-primary text-white">
+    <th scope="row">User Name</th>
+    <th>First Name</th>
+    <th>Last Name</th>
+     <th>Email</th>
+
+    </thead>
+{% for x in user %}
+<tr>
+<td>{{ x.username }}</td>
+    <td>{{ x.first_name }}</td>
+    <td>{{ x.last_name }}</td>
+    <td>{{ x.email }}</td>
+</tr>
+{% endfor %}
+</table>
+ </div>
+{% endblock %}
+
+</body>
+</html>

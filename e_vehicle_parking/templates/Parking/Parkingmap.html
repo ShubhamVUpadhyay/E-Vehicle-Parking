@@ -1,0 +1,12 @@
+<table>
+  <tr>
+    <th>Space Number</th>
+    <th>Vehicle Type</th>
+  </tr>
+  {% for space in spaces %}
+  <tr>
+    <td>{{ space.space_number }}</td>
+    <td>{{ space.vehicle_type }}</td>
+  </tr>
+  {% endfor %}
+</table>

@@ -1,0 +1,14 @@
+{% extends 'home/base.html' %}
+
+{% block content %}
+  <h2>Parking Slots:</h2>
+  {% if slots %}
+    <ul>
+      {% for slot in slots %}
+        <li>{{ slot.category }} - {{ slot.id }}</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No vacant parking slots found for the selected criteria.</p>
+  {% endif %}
+{% endblock %}

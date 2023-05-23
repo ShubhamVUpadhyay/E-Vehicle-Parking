@@ -1,0 +1,34 @@
+{% extends 'home/base.html' %}
+
+{% block content %}
+  <h1>Find Parking Spots</h1>
+  <form method="GET">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="category">Vehicle Category:</label>
+      <select class="form-control" id="category" name="category">
+        {% for category in categories %}
+          <option value="{{ category.name }}">{{ category.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="from_date">From:</label>
+      <input type="date" class="form-control" id="from_date" name="from_date">
+    </div>
+    <div class="form-group">
+      <label for="to_date">To:</label>
+      <input type="date" class="form-control" id="to_date" name="to_date">
+    </div>
+    <button type="submit" class="btn btn-primary">Find Parking Spots</button>
+  </form>
+
+  {% if spots %}
+    <h2>Parking Spots:</h2>
+    <ul>
+      {% for spot in spots %}
+        <li>{{ spot.name }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endblock %}

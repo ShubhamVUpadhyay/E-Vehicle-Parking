@@ -1,0 +1,31 @@
+{% extends 'home/base.html' %}
+{% block content %}
+
+{% for record in record %}
+{% if vehicle %}
+
+  <div class="container">
+    <div class="row justify-content-center align-items-center">
+      <div class="col-md-6">
+        <div class="card border-success">
+          <div class="card-header bg-success text-white">
+            <i class="fas fa-check-circle fa-2x mr-2"></i>Booking Record Found
+          </div>
+          <div class="card-body">
+            <p>Vehicle Number: {{ record.vehicle_number }}</p>
+            <p>Parking Spot: {{ record.slot.slot_number }}</p>
+            <p>Entry Time: {{ record.entry_time }}</p>
+            <p>Exit Time: {{ record.exit_time }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+{% endif %}
+{% endfor %}
+
+
+{% endblock %}

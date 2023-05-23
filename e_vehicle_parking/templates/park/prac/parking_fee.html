@@ -1,0 +1,8 @@
+{% extends 'home/base.html' %}
+
+{% block content %}
+  <h1>Parking fee for {{ category.name }}:</h1>
+  <p>Entry time: {{ entry_time }}</p>
+  <p>Exit time: {{ exit_time }}</p>
+  <p>Total fee: ${{ total_fee|floatformat:2 }}</p>
+{% endblock %}

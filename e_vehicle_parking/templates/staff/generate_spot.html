@@ -1,0 +1,6 @@
+<form method="post" action="{% url 'generate' %}">
+    {% csrf_token %}
+    {{ spots.as_p }}
+    <input type="submit" value="Generate">
+</form>
+

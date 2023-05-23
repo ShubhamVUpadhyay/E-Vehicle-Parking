@@ -1,0 +1,114 @@
+{% extends 'home/base.html' %}
+{% block content %}
+
+<style>
+     .seat{
+  border: 1px solid white;
+  height: 200px;
+  width: 100px;
+  color: white;
+  text-align: center;
+  }
+  .txt{
+  color: white;
+  }
+  p{
+  font-size: 10px;
+  }
+  .details p{
+   font-size: 20px;
+  }
+  .vacant {
+  background-color: green;
+}
+.occupied {
+  background-color: red;
+}
+</style>
+  <form method="POST" role="form">
+    <form style="width:300px">
+    {% csrf_token %}
+        <div class="form-group"> <label for="spot_category">Vehilce Category:</label>
+                                        <select name="category" required="" id="spot_category" autocomplete="off">
+                                            <option value="" selected="">---------</option>
+                                            <option value="car">Car</option>
+
+                                            <option value="bike">Bike</option>
+
+                                            <option value="truck">Truck</option>
+
+                                            <option value="bicycle">Bicycle</option>
+
+                                            <option value="commercial">Commercial Vehicles</option>
+
+                                        </select></div>
+        <label for="entry_datetime">Entry Datetime:</label>
+    <input type="datetime-local" name="entry_datetime" id="entry_datetime">
+
+    <br><br>
+
+    <label for="exit_datetime">Exit Datetime:</label>
+    <input type="datetime-local" name="exit_datetime" id="exit_datetime">
+
+    <br><br>
+
+
+                            <button type="submit" class="btn btn-danger" >Search
+                            </button>
+    </form></form>
+
+
+</div>
+<h1>Parking Spaces</h1>
+   <div class="row">
+    {% for spot in parking_spaces %}
+        <div class="col-lg-3 col-md-4 col-sm-6 ">
+            <div class="seat vacant">
+                <p>{{ spot.slot_number }}</p>
+                <p>Floor: {{ spot.floor_number }}</p>
+                <p>{{ spot.status }}</p>
+                <p>{{ spot.category }}</p>
+                <a href="{% url 'booking_details' spot.id %}"> <button class="btn btn-danger" data-toggle="modal" data-target="#popupModal">Book</button>
+            </a> </div>
+        </div>
+    {% empty %}
+        <div class="col-sm-12">
+            <p>No parking spaces available</p>
+        </div>
+    {% endfor %}
+</div>
+
+      <!-- Modal -->
+                            <div class="modal fade" id="popupModal" tabindex="-1" role="dialog"
+                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Book Slot</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <!-------------------Booking Page------------>
+
+
+                                            <p>Vehicle Category :{{ category }}</p>
+                                            <p>Parking Slot :{{slot_number}}</p>
+
+                                            <p>Email : {{x.email}}</p>
+
+                                            <p>From :</p>
+                                            <p> To : </p>
+                                            <p>Total Fee: </p>
+                                            <button type="submit" class="btn btn-success">Confirm</button>
+
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel
+                                            </button>
+
+
+                                        </div>
+                                        <!--------xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-----------Booking Page------xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx------>
+                                    </div>
+
+{% endblock %}

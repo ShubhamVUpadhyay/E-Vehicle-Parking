@@ -1,0 +1,8 @@
+{% for spot in spots %}
+  <div class="parking-spot {% if spot.status == 'occupied' %}occupied{% else %}available{% endif %}">
+    {{ spot.location }}
+    {% if spot.status == 'available' %}
+      <a href="{% url 'book_parking_spot' spot.pk %}">Book</a>
+    {% endif %}
+  </div>
+{% endfor %}

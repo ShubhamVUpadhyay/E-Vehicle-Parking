@@ -1,0 +1,7 @@
+<h1>Vehicle Categories</h1>
+
+<ul>
+  {% for vehicle_category in vehicle_categories %}
+    <li><a href="{% url 'parking_slots_by_vehicle_category' vehicle_category.id %}">{{ vehicle_category.name }}</a></li>
+  {% endfor %}
+</ul>

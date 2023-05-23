@@ -1,0 +1,19 @@
+{% extends 'home/base.html' %}
+
+{% block content %}
+<h2>Select a Vehicle and Enter Entry/Exit Times</h2>
+<form method="POST">
+    {% csrf_token %}
+    <label for="category">Select Vehicle Category:</label>
+    <select name="category">
+    {% for category in categories %}
+        <option value="{{ category.id }}">{{ category.name }}</option>
+    {% endfor %}
+    </select><br>
+    <label for="entry_time">Entry Time:</label>
+    <input type="datetime-local" name="entry_time"><br>
+    <label for="exit_time">Exit Time:</label>
+    <input type="datetime-local" name="exit_time"><br>
+    <input type="submit" value="Check Availability">
+</form>
+{% endblock %}

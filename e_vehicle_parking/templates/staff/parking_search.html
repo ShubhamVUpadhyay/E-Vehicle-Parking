@@ -1,0 +1,19 @@
+<!-- parking_search.html -->
+<h2>Parking Search:</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Search</button>
+</form>
+
+<!-- parking_search_results.html -->
+{% if slots %}
+    <h2>Parking Slots:</h2>
+    <ul>
+    {% for slot in slots %}
+        <li>{{ slot.category }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Sorry, no vacant parking slots available for the selected vehicle category and time period.</p>
+{% endif %}

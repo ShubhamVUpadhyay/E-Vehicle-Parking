@@ -1,0 +1,6 @@
+<h1>Enter Vehicle Details</h1>
+<form method="get">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Find Available Slots</button>
+</form>

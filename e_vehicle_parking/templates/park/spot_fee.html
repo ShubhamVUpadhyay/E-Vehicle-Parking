@@ -1,0 +1,6 @@
+<h1>Spot {{ spot.spot_number }} - Fee: ${{ spot.fee }}</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Pay">
+</form>
